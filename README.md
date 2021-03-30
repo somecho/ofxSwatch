@@ -10,13 +10,59 @@ The texture can then be sent to a shader for sampling.
 | :---: |
 | *colors sampled with ofxSwatch* |
 
----
+## Usage
+1. First, make sure OpenGL is enabled! 
 
-# TODO
+```cpp
+//main.cpp
+ofGLFWWindowSettings setting;
+setting.setSize(1280, 720);
+setting.setGLVersion(4, 6);
+ofCreateWindow(setting);
+```
 
-- [ ] Allow color lookup in CPU as well
-- [ ] template ofColor so that arrays/vectors of colors can be used, as well as ofFloatColor and ofShortColor 
-- [ ] different interpolation modes for gradients
+2. Setup the swatch
+```cpp
+//ofApp.cpp
+ofxSwatch swatch;
+swatch.setup(WIDTH, HEIGHT);
+```
+
+3. Add the colors then 'compile' the swatch
+```cpp
+//creating a palette using a premade vector
+vector<ofColor> row1 {
+	ofColor(0),
+	ofColor::fromHex(0xb01d1e),
+	ofColor::fromHex(0x006be4),
+	ofColor::fromHex(0xF16826),
+	ofColor::fromHex(0x7e63b4),
+	ofColor::fromHex(0xead35f),
+	ofColor::fromHex(0x00bbad),
+	fColor(255),
+	ofColor(0)
+	};
+swatch.addPalette(row1);
+
+//individually adding colors
+swatch.addGradient();
+swatch.addColor(ofColor(0), 1);
+swatch.addColor(ofColor(255), 1);
+
+//anonymous vector
+swatch.addGradient({
+	ofColor(0,255,0),
+	ofColor(255,0,0),
+	ofColor(255,0,255),
+	ofColor(255)
+});
+
+generate the swatch
+swatch.createSwatch();
+```
+
+4. Sampling the swatch
+The swatch can be used in a shader by sending it as a texture to the shader or it can be used in OF by simply calling the method `swatch.sample(VALUE, ROW)` where VALUE is a float between 0.0 and 1.0 and ROW is the index of the palette or gradient.
 
 ---
 
